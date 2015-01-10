@@ -38,10 +38,8 @@ class t411(TorrentProvider, MovieProvider):
     def _searchOnTitle(self, title, movie, quality, results):
         log.debug('Searching T411 for %s' % (title))
         url = self.urls['search'] % (title.replace(':', ''))
-        log.debug(url)
         try:
             output = self.getJsonData(url,cache_timeout = 30, headers = {"Authorization": self.token})
-            #log.error(output)
         except: pass
         for entry in output['torrents']:
             log.debug("NAME: "+entry['name']+"  SIZE:  "+entry['size'])
@@ -88,11 +86,12 @@ class t411(TorrentProvider, MovieProvider):
     
     
     def download(self, url = '', nzb_id = ''):
-        log.error(self.conf('token'))
-        torrent = self.urlopen(url, files=False, headers = {"Authorization": self.conf('token')})
-        log.error("test")
-        return torrent
-        log.error('Failed getting release from %s: %s', (self.getName(), traceback.format_exc()))
+        log.debug('Try to download %s from %s', (self.getName(), traceback.format_exc()))
+        try:
+            torrent = self.urlopen(url, files=False, headers = {"Authorization": self.conf('token')})
+            return torrent
+        except:
+            log.error('Failed getting release from %s: %s', (self.getName(), traceback.format_exc()))
 
         return 'try_next'
     
