@@ -18,12 +18,12 @@ log = CPLog(__name__)
 class t411(TorrentProvider, MovieProvider):
 
     urls = {
-        'test' : 'https://t411.me',
-        'login' : 'https://api.t411.me/auth',
-        'login_check': 'https://api.t411.me/torrents/top/100',
-        'detail' : 'https://www.t411.me/torrents/?id=%s',
-        'search' : 'https://api.t411.me/torrents/search/%s?limit=200&cat=631',
-        'download' : 'https://api.t411.me/torrents/download/%s',
+        'test' : 'https://t411.to',
+        'login' : 'https://api.t411.to/auth',
+        'login_check': 'https://api.t411.to/torrents/top/100',
+        'detail' : 'https://www.t411.to/torrents/?id=%s',
+        'search' : 'https://api.t411.to/torrents/search/%s?limit=200&cat=631',
+        'download' : 'https://api.t411.to/torrents/download/%s',
     }
 
     cat_ids = [
@@ -52,11 +52,11 @@ class t411(TorrentProvider, MovieProvider):
                 'seeders': entry['seeders'],
                 'leechers': entry['leechers'],
                 })
-    
+
     def login(self):
         log.debug('Try to login on T411')
         # Check if we are still logged in every 60 days
-        
+
         self.token = self.conf('token')
 
         now = time.time()
@@ -68,10 +68,10 @@ class t411(TorrentProvider, MovieProvider):
                     return True
             except: pass
             self.last_login_check = None
-        
+
         if self.last_login_check:
             return True
-        
+
         try:
             output = self.getJsonData(self.urls['login'], files=False, data = self.getLoginParams())
 
@@ -83,8 +83,8 @@ class t411(TorrentProvider, MovieProvider):
             error = 'unknown'
         except:
             error = traceback.format_exc()
-    
-    
+
+
     def download(self, url = '', nzb_id = ''):
         log.debug('Try to download %s from %s', (self.getName(), traceback.format_exc()))
         try:
@@ -94,8 +94,8 @@ class t411(TorrentProvider, MovieProvider):
             log.error('Failed getting release from %s: %s', (self.getName(), traceback.format_exc()))
 
         return 'try_next'
-    
-    
+
+
     def getLoginParams(self):
         log.debug('Getting login params for T411')
         return {
