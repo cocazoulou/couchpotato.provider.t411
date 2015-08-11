@@ -42,16 +42,20 @@ class t411(TorrentProvider, MovieProvider):
             output = self.getJsonData(url,cache_timeout = 30, headers = {"Authorization": self.token})
         except: pass
         for entry in output['torrents']:
-            log.debug("NAME: "+entry['name']+"  SIZE:  "+entry['size'])
-            results.append({
-                'id': entry['id'],
-                'name': entry['name'],
-                'url': self.urls['download'] % entry['id'],
-                'detail_url': self.urls['detail'] % entry['id'],
-                'size': self.parseSize(str(tryInt(tryInt(entry['size'])/1024))+"kb"),
-                'seeders': entry['seeders'],
-                'leechers': entry['leechers'],
-                })
+            try:
+                log.debug(entry)
+                #log.debug("NAME: "+entry['name']+"  SIZE:  "+self.parseSize(str(tryInt(tryInt(entry['size'])/1024))+"kb"))
+                results.append({
+                    'id': entry['id'],
+                    'name': entry['name'],
+                    'url': self.urls['download'] % entry['id'],
+                    'detail_url': self.urls['detail'] % entry['id'],
+                    'size': self.parseSize(str(tryInt(tryInt(entry['size'])/1024))+"kb"),
+                    'seeders': entry['seeders'],
+                    'leechers': entry['leechers'],
+                    })
+            except:
+                error = traceback.format_exc()
 
     def login(self):
         log.debug('Try to login on T411')
