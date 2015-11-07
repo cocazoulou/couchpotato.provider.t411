@@ -22,7 +22,7 @@ T411 (Francais) Fournisseur de torrent intégré dans CouchPotato
 
 ##Comment l'installer
 
-Déplacez/copiez le dossier t411 dans le dossier custom_plugins, il est situé dans votre dossier de configuration. Pour trouver cette endroit, allez voir dans Settings->About->Directories (le deuxieme dossier dans la section config folder)
+Déplacez/copiez le dossier t411 dans le dossier custom_plugins, il est situé dans votre dossier de configuration. Pour trouver cette endroit, allez voir dans Settings->About->Directories (le deuxième dossier dans la section config folder)
 
 ##Comment l'utiliser
 
