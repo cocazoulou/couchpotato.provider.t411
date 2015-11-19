@@ -42,34 +42,40 @@ class t411(TorrentProvider, MovieProvider):
         try:
             output = self.getJsonData(url,cache_timeout = 30, headers = {"Authorization": self.token})
         except: pass
-        for entry in output['torrents']:
-            
-            #Calculate the age of the release
-            pubdate = entry['added']
-            try:
-                pubdate = datetime.strptime(pubdate, '%Y-%m-%d %H:%M:%S')
-                now = datetime.utcnow()
-                age = (now - pubdate).days
-            except ValueError:
-                log.debug('T411: Bad age')
-                age = 0
-            
-            #Produce the output    
-            try:
-                log.debug(entry)
-                #log.debug("NAME: "+entry['name']+"  SIZE:  "+self.parseSize(str(tryInt(tryInt(entry['size'])/1024))+"kb"))
-                results.append({
-                    'id': entry['id'],
-                    'name': entry['name'],
-                    'url': self.urls['download'] % entry['id'],
-                    'detail_url': self.urls['detail'] % entry['id'],
-                    'size': self.parseSize(str(tryInt(tryInt(entry['size'])/1024))+"kb"),
-                    'seeders': entry['seeders'],
-                    'age': age,
-                    'leechers': entry['leechers'],
-                    })
-            except:
-                error = traceback.format_exc()
+        if 'torrent' in output:        
+            for entry in output['torrents']:
+                
+                #Calculate the age of the release
+                try:
+                    pubdate = entry['added']
+                    pubdate = datetime.strptime(pubdate, '%Y-%m-%d %H:%M:%S')
+                    now = datetime.utcnow()
+                    age = (now - pubdate).days
+                except ValueError:
+                    log.debug('T411: Bad age')
+                    age = 0
+                except:
+                    log.warning('Something weird happen with the age')
+                    age = 0
+                    
+                #Produce the output    
+                try:
+                    log.debug(entry)
+                    #log.debug("NAME: "+entry['name']+"  SIZE:  "+self.parseSize(str(tryInt(tryInt(entry['size'])/1024))+"kb"))
+                    results.append({
+                        'id': entry['id'],
+                        'name': entry['name'],
+                        'url': self.urls['download'] % entry['id'],
+                        'detail_url': self.urls['detail'] % entry['id'],
+                        'size': self.parseSize(str(tryInt(tryInt(entry['size'])/1024))+"kb"),
+                        'seeders': entry['seeders'],
+                        'age': age,
+                        'leechers': entry['leechers'],
+                        })
+                except:
+                    error = traceback.format_exc()
+        else:
+            log.info('No torrent found for : %s' % (title))
 
     def login(self):
         log.debug('Try to login on T411')
