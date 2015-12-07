@@ -42,9 +42,9 @@ class t411(TorrentProvider, MovieProvider):
         try:
             output = self.getJsonData(url,cache_timeout = 30, headers = {"Authorization": self.token})
         except: pass
-        if 'torrent' in output:        
+        if 'torrents' in output:
             for entry in output['torrents']:
-                
+
                 #Calculate the age of the release
                 try:
                     pubdate = entry['added']
@@ -57,8 +57,8 @@ class t411(TorrentProvider, MovieProvider):
                 except:
                     log.warning('Something weird happen with the age')
                     age = 0
-                    
-                #Produce the output    
+
+                #Produce the output
                 try:
                     log.debug(entry)
                     #log.debug("NAME: "+entry['name']+"  SIZE:  "+self.parseSize(str(tryInt(tryInt(entry['size'])/1024))+"kb"))
