@@ -14,7 +14,7 @@ config = [{
             'tab': 'searcher',
             'list': 'torrent_providers',
             'name': 'T411',
-            'description': 'See <a href="https://t411.in">T411</a>',
+            'description': 'See <a href="https://t411.ch">T411</a>',
             'wizard': True,
             'options': [
                 {
