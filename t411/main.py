@@ -134,4 +134,3 @@ class t411(TorrentProvider, MovieProvider):
 
     loginCheckSuccess = loginSuccess
     loginDownload = download
-t411.ch
