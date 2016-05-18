@@ -1,9 +1,18 @@
 from .main import t411
+from .updater import ST411Updater
 from couchpotato.core.logger import CPLog
+from couchpotato.core.event import fireEventAsync
 
 log = CPLog(__name__)
 
 def autoload():
+    log.info('Checking if new update available')
+    update = ST411Updater()
+
+    if update.check() and update.isEnabled():
+        if update.doUpdate():
+            log.info('T411 update sucessful, Restarting CouchPotato')
+            fireEventAsync('app.restart')
     log.debug('load success')
     return t411()
 
@@ -59,6 +68,14 @@ config = [{
                     'type': 'int',
                     'default': 20,
                     'description': 'Starting score for each release found via this provider.',
+                },
+                {
+                    'name': 'auto-update',
+                    'advanced': True,
+                    'label': 'Automatic Update',
+                    'type': 'bool',
+                    'default': 1,
+                    'description': 'Automatic update at startup.',
                 }
             ],
         },
