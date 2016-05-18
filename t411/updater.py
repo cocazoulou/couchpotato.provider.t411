@@ -25,7 +25,7 @@ class T411Updater(Plugin):
 
     repo_user = 'cocazoulou'
     repo_name = 'couchpotato.provider.t411'
-    branch = 'Auto-updater'
+    branch = 'master'
 
     version = None
     update_failed = False
