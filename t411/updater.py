@@ -23,7 +23,7 @@ log = CPLog(__name__)
 
 class T411Updater(Plugin):
 
-    repo_user = 'cocazoulou'
+    repo_user = 'cadavor'
     repo_name = 'couchpotato.provider.t411'
     branch = 'master'
 
